@@ -124,6 +124,15 @@ contract CrowdFunding is IUtilityContract, Ownable {
         }
     }
 
+    function withdraw() external {
+        require(msg.sender == fundraiser, "Only fundraiser can withdraw");
+        require(state == State.Successful, "Funding must be successful");
+        require(vestingContract != address(0), "Vesting contract not set");
+        
+        // Делегируем логику вывода вестинг-контракту
+        Vesting(vestingContract).claim();
+    }
+
     function _finalizeSuccessful() internal {
         state = State.Successful;
 
