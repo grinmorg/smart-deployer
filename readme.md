@@ -1,80 +1,14 @@
-## Foundry
+# Smart Deployer
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+Smart Deployer is a universal architecture for organizing and managing paid smart contract deployments.
 
-Foundry consists of:
+This solution allows developers to:
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- Create their own Smart Deployer (DeployManager.sol)
+- Create & connect utility contracts using template
+- Monetize the deployment of utility contracts
 
-## Documentation
+> The repository is currently under development.  
+We are building it as part of the Solidity University Bootcamp program.  
 
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Semgrep
-
-```shell
-$ semgrep --config "p/smart-contracts" src/
-```
-
-### Generate Docs
-
-```shell
-$ forge doc
-$ forge doc --build
-$ forge doc --serve --port 4000
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+👉 More details: [bootcamp.solidity.university](https://bootcamp.solidity.university)
