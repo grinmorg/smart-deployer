@@ -13,17 +13,9 @@ contract ERC721Airdroper is AbstractUtilityContract, Ownable {
     IERC721 public token;
     address public treasury;
 
-    error AlreadyInitialized();
     error ArraysLengthMismatch();
     error NeedToApproveTokens();
     error BatchSizeExceeded();
-
-    modifier notInitialized() {
-        require(!initialized, AlreadyInitialized());
-        _;
-    }
-
-    bool private initialized;
 
     function airdrop(address[] calldata receivers, uint256[] calldata tokenIds) external onlyOwner {
         require(tokenIds.length <= MAX_AIRDROP_BATCH_SIZE, BatchSizeExceeded());
