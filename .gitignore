@@ -7,3 +7,4 @@ lib/
 cache/
 out/
 docs/
+node_modules/
