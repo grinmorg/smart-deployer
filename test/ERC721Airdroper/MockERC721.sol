@@ -17,18 +17,12 @@ contract MockERC721 is IERC721 {
         emit Transfer(address(0), to, tokenId);
     }
 
-    function setApprovalForAll(
-        address operator,
-        bool approved
-    ) external override {
+    function setApprovalForAll(address operator, bool approved) external override {
         operatorApprovals[msg.sender][operator] = approved;
         emit ApprovalForAll(msg.sender, operator, approved);
     }
 
-    function isApprovedForAll(
-        address owner,
-        address operator
-    ) external view override returns (bool) {
+    function isApprovedForAll(address owner, address operator) external view override returns (bool) {
         return operatorApprovals[owner][operator];
     }
 
@@ -40,11 +34,7 @@ contract MockERC721 is IERC721 {
         return balances[owner];
     }
 
-    function safeTransferFrom(
-        address from,
-        address to,
-        uint256 tokenId
-    ) public override {
+    function safeTransferFrom(address from, address to, uint256 tokenId) public override {
         require(owners[tokenId] == from, "Not owner");
         owners[tokenId] = to;
         balances[from] -= 1;
@@ -52,11 +42,7 @@ contract MockERC721 is IERC721 {
         emit Transfer(from, to, tokenId);
     }
 
-    function transferFrom(
-        address from,
-        address to,
-        uint256 tokenId
-    ) external override {
+    function transferFrom(address from, address to, uint256 tokenId) external override {
         safeTransferFrom(from, to, tokenId);
     }
 
@@ -69,12 +55,7 @@ contract MockERC721 is IERC721 {
         return tokenApprovals[tokenId];
     }
 
-    function safeTransferFrom(
-        address from,
-        address to,
-        uint256 tokenId,
-        bytes calldata
-    ) external override {
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes calldata) external override {
         safeTransferFrom(from, to, tokenId);
     }
 

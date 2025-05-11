@@ -30,11 +30,7 @@ contract VestingTest is Test {
         vesting = new Vesting();
         mockDeployManager = new MockDeployManager();
         token.mint(address(vesting), 10000 * 1e18);
-        bytes memory initData = encodeInitData(
-            address(mockDeployManager),
-            address(token),
-            vestingOwner
-        );
+        bytes memory initData = encodeInitData(address(mockDeployManager), address(token), vestingOwner);
         vesting.initialize(initData);
     }
 
@@ -53,11 +49,7 @@ contract VestingTest is Test {
         vm.warp(block.timestamp + 3);
         vm.prank(beneficiary);
         vesting.claim();
-        assertGt(
-            token.balanceOf(beneficiary),
-            0,
-            "Beneficiary should have claimed tokens"
-        );
+        assertGt(token.balanceOf(beneficiary), 0, "Beneficiary should have claimed tokens");
     }
 
     function testVestingCliff() public {
@@ -132,17 +124,14 @@ contract VestingTest is Test {
 
     function testTemplateIsNotInitialized() public {
         Vesting template = new Vesting();
-        assertFalse(
-            template.initialized(),
-            "Template should not be initialized"
-        );
+        assertFalse(template.initialized(), "Template should not be initialized");
     }
 
-    function encodeInitData(
-        address _deployManager,
-        address _token,
-        address _owner
-    ) public pure returns (bytes memory) {
+    function encodeInitData(address _deployManager, address _token, address _owner)
+        public
+        pure
+        returns (bytes memory)
+    {
         return abi.encode(_deployManager, _token, _owner);
     }
 

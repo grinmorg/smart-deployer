@@ -38,12 +38,7 @@ contract ERC721AirdroperTest is Test {
         }
         vm.prank(treasury);
         token.setApprovalForAll(address(airdroper), true);
-        bytes memory initData = encodeInitData(
-            address(mockDeployManager),
-            address(token),
-            treasury,
-            airdropOwner
-        );
+        bytes memory initData = encodeInitData(address(mockDeployManager), address(token), treasury, airdropOwner);
         airdroper.initialize(initData);
     }
 
@@ -51,11 +46,7 @@ contract ERC721AirdroperTest is Test {
         vm.prank(airdropOwner);
         airdroper.airdrop(receivers, tokenIds);
         for (uint256 i = 0; i < 3; i++) {
-            assertEq(
-                token.ownerOf(tokenIds[i]),
-                receivers[i],
-                "Receiver should own token"
-            );
+            assertEq(token.ownerOf(tokenIds[i]), receivers[i], "Receiver should own token");
         }
     }
 
@@ -95,28 +86,21 @@ contract ERC721AirdroperTest is Test {
 
     function testTemplateIsNotInitialized() public {
         ERC721Airdroper template = new ERC721Airdroper();
-        assertFalse(
-            template.initialized(),
-            "Template should not be initialized"
-        );
+        assertFalse(template.initialized(), "Template should not be initialized");
     }
 
     function testDeployManagerSupportsInterfaceDirect() public {
         DeployManager deployManager = new DeployManager();
         bytes4 iface = type(IDeployManager).interfaceId;
         bool result = deployManager.supportsInterface(iface);
-        assertTrue(
-            result,
-            "DeployManager should support IDeployManager interface"
-        );
+        assertTrue(result, "DeployManager should support IDeployManager interface");
     }
 
-    function encodeInitData(
-        address _deployManager,
-        address _token,
-        address _treasury,
-        address _owner
-    ) public pure returns (bytes memory) {
+    function encodeInitData(address _deployManager, address _token, address _treasury, address _owner)
+        public
+        pure
+        returns (bytes memory)
+    {
         return abi.encode(_deployManager, _token, _treasury, _owner);
     }
 }

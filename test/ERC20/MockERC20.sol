@@ -17,36 +17,23 @@ contract MockERC20 {
         return _balanceOf[account];
     }
 
-    function allowance(
-        address owner,
-        address spender
-    ) public view virtual returns (uint256) {
+    function allowance(address owner, address spender) public view virtual returns (uint256) {
         return _allowance[owner][spender];
     }
 
-    function approve(
-        address spender,
-        uint256 amount
-    ) public virtual returns (bool) {
+    function approve(address spender, uint256 amount) public virtual returns (bool) {
         _allowance[msg.sender][spender] = amount;
         return true;
     }
 
-    function transfer(
-        address to,
-        uint256 amount
-    ) public virtual returns (bool) {
+    function transfer(address to, uint256 amount) public virtual returns (bool) {
         require(_balanceOf[msg.sender] >= amount, "balance");
         _balanceOf[msg.sender] -= amount;
         _balanceOf[to] += amount;
         return true;
     }
 
-    function transferFrom(
-        address from,
-        address to,
-        uint256 amount
-    ) public virtual returns (bool) {
+    function transferFrom(address from, address to, uint256 amount) public virtual returns (bool) {
         require(_balanceOf[from] >= amount, "balance");
         require(_allowance[from][msg.sender] >= amount, "allowance");
         _balanceOf[from] -= amount;

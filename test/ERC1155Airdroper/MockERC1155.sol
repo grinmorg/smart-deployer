@@ -25,7 +25,12 @@ contract MockERC1155 is IERC1155 {
         return balances[id][account];
     }
 
-    function balanceOfBatch(address[] calldata accounts, uint256[] calldata ids) external view override returns (uint256[] memory) {
+    function balanceOfBatch(address[] calldata accounts, uint256[] calldata ids)
+        external
+        view
+        override
+        returns (uint256[] memory)
+    {
         uint256[] memory batchBalances = new uint256[](accounts.length);
         for (uint256 i = 0; i < accounts.length; i++) {
             batchBalances[i] = balances[ids[i]][accounts[i]];
@@ -40,6 +45,15 @@ contract MockERC1155 is IERC1155 {
         emit TransferSingle(msg.sender, from, to, id, amount);
     }
 
-    function safeBatchTransferFrom(address, address, uint256[] calldata, uint256[] calldata, bytes calldata) external pure override { revert("Not implemented"); }
-    function supportsInterface(bytes4 interfaceId) external pure returns (bool) { return interfaceId == type(IERC1155).interfaceId; }
-} 
+    function safeBatchTransferFrom(address, address, uint256[] calldata, uint256[] calldata, bytes calldata)
+        external
+        pure
+        override
+    {
+        revert("Not implemented");
+    }
+
+    function supportsInterface(bytes4 interfaceId) external pure returns (bool) {
+        return interfaceId == type(IERC1155).interfaceId;
+    }
+}

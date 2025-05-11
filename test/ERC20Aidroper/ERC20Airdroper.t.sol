@@ -38,13 +38,7 @@ contract ERC20AirdroperTest is Test {
         token.mint(treasury, 1000);
         vm.prank(treasury);
         token.approve(address(airdroper), 1000);
-        bytes memory initData = encodeInitData(
-            address(mockDeployManager),
-            address(token),
-            1000,
-            treasury,
-            airdropOwner
-        );
+        bytes memory initData = encodeInitData(address(mockDeployManager), address(token), 1000, treasury, airdropOwner);
         airdroper.initialize(initData);
         vm.deal(managerOwner, 0);
     }
@@ -52,13 +46,7 @@ contract ERC20AirdroperTest is Test {
     function testDeployManagerSupportsInterface() public {
         // Should succeed with supports = true
         mockDeployManager.setSupports(true);
-        bytes memory initData = encodeInitData(
-            address(mockDeployManager),
-            address(token),
-            1000,
-            treasury,
-            airdropOwner
-        );
+        bytes memory initData = encodeInitData(address(mockDeployManager), address(token), 1000, treasury, airdropOwner);
         ERC20Airdroper newAirdroper = new ERC20Airdroper();
         newAirdroper.initialize(initData);
     }
@@ -66,13 +54,7 @@ contract ERC20AirdroperTest is Test {
     function testDeployManagerDoesNotSupportInterface() public {
         // Should revert with supports = false
         mockDeployManager.setSupports(false);
-        bytes memory initData = encodeInitData(
-            address(mockDeployManager),
-            address(token),
-            1000,
-            treasury,
-            airdropOwner
-        );
+        bytes memory initData = encodeInitData(address(mockDeployManager), address(token), 1000, treasury, airdropOwner);
         ERC20Airdroper newAirdroper = new ERC20Airdroper();
         vm.expectRevert();
         newAirdroper.initialize(initData);
@@ -81,13 +63,7 @@ contract ERC20AirdroperTest is Test {
     function testReconnectDeployManager() public {
         // Simulate disconnect and reconnect
         mockDeployManager.setSupports(true);
-        bytes memory initData = encodeInitData(
-            address(mockDeployManager),
-            address(token),
-            1000,
-            treasury,
-            airdropOwner
-        );
+        bytes memory initData = encodeInitData(address(mockDeployManager), address(token), 1000, treasury, airdropOwner);
         ERC20Airdroper newAirdroper = new ERC20Airdroper();
         newAirdroper.initialize(initData);
         // Try to re-initialize (should revert)
@@ -100,21 +76,9 @@ contract ERC20AirdroperTest is Test {
         token.approve(address(airdroper), 600);
         vm.prank(airdropOwner);
         airdroper.airdrop(receivers, amounts);
-        assertEq(
-            token.balanceOf(receivers[0]),
-            100,
-            "Receiver 0 should get 100"
-        );
-        assertEq(
-            token.balanceOf(receivers[1]),
-            200,
-            "Receiver 1 should get 200"
-        );
-        assertEq(
-            token.balanceOf(receivers[2]),
-            300,
-            "Receiver 2 should get 300"
-        );
+        assertEq(token.balanceOf(receivers[0]), 100, "Receiver 0 should get 100");
+        assertEq(token.balanceOf(receivers[1]), 200, "Receiver 1 should get 200");
+        assertEq(token.balanceOf(receivers[2]), 300, "Receiver 2 should get 300");
     }
 
     function testAirdropBatchSizeExceeded() public {
@@ -151,17 +115,9 @@ contract ERC20AirdroperTest is Test {
     }
 
     function testGetInitData() public {
-        bytes memory data = airdroper.getInitData(
-            address(0xDEAD),
-            address(token),
-            1000,
-            treasury,
-            airdropOwner
-        );
-        (address d, address t, uint256 a, address tr, address o) = abi.decode(
-            data,
-            (address, address, uint256, address, address)
-        );
+        bytes memory data = airdroper.getInitData(address(0xDEAD), address(token), 1000, treasury, airdropOwner);
+        (address d, address t, uint256 a, address tr, address o) =
+            abi.decode(data, (address, address, uint256, address, address));
         assertEq(d, address(0xDEAD));
         assertEq(t, address(token));
         assertEq(a, 1000);
@@ -169,13 +125,11 @@ contract ERC20AirdroperTest is Test {
         assertEq(o, airdropOwner);
     }
 
-    function encodeInitData(
-        address _deployManager,
-        address _token,
-        uint256 _amount,
-        address _treasury,
-        address _owner
-    ) public pure returns (bytes memory) {
+    function encodeInitData(address _deployManager, address _token, uint256 _amount, address _treasury, address _owner)
+        public
+        pure
+        returns (bytes memory)
+    {
         return abi.encode(_deployManager, _token, _amount, _treasury, _owner);
     }
 
@@ -185,25 +139,12 @@ contract ERC20AirdroperTest is Test {
         ERC20Airdroper template = new ERC20Airdroper();
         vm.prank(managerOwner);
         deployManager.addNewContract(address(template), 0.5 ether, true);
-        bytes memory initData = encodeInitData(
-            address(deployManager),
-            address(token),
-            1000,
-            treasury,
-            airdropOwner
-        );
+        bytes memory initData = encodeInitData(address(deployManager), address(token), 1000, treasury, airdropOwner);
         vm.deal(address(this), 1 ether);
         uint256 ownerBalanceBefore = managerOwner.balance;
-        address deployed = deployManager.deploy{value: 0.5 ether}(
-            address(template),
-            initData
-        );
+        address deployed = deployManager.deploy{value: 0.5 ether}(address(template), initData);
         uint256 ownerBalanceAfter = managerOwner.balance;
-        assertEq(
-            ownerBalanceAfter - ownerBalanceBefore,
-            0.5 ether,
-            "Owner should receive the fee"
-        );
+        assertEq(ownerBalanceAfter - ownerBalanceBefore, 0.5 ether, "Owner should receive the fee");
         ERC20Airdroper deployedAirdroper = ERC20Airdroper(deployed);
         assertEq(address(deployedAirdroper.token()), address(token));
         assertEq(deployedAirdroper.amount(), 1000);
@@ -214,20 +155,14 @@ contract ERC20AirdroperTest is Test {
     function testTemplateIsNotInitialized() public {
         // Ensure the template is never initialized before cloning
         ERC20Airdroper template = new ERC20Airdroper();
-        assertFalse(
-            template.initialized(),
-            "Template should not be initialized"
-        );
+        assertFalse(template.initialized(), "Template should not be initialized");
     }
 
     function testDeployManagerSupportsInterfaceDirect() public {
         DeployManager deployManager = new DeployManager();
         bytes4 iface = type(IDeployManager).interfaceId;
         bool result = deployManager.supportsInterface(iface);
-        assertTrue(
-            result,
-            "DeployManager should support IDeployManager interface"
-        );
+        assertTrue(result, "DeployManager should support IDeployManager interface");
     }
 
     function testLogInterfaceId() public {
@@ -241,9 +176,6 @@ contract ERC20AirdroperTest is Test {
     function testSupportsInterfaceOnDeployManager() public {
         DeployManager deployManager = new DeployManager();
         bytes4 iface = type(IDeployManager).interfaceId;
-        assertTrue(
-            deployManager.supportsInterface(iface),
-            "Should support IDeployManager"
-        );
+        assertTrue(deployManager.supportsInterface(iface), "Should support IDeployManager");
     }
 }

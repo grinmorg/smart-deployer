@@ -18,12 +18,8 @@ contract MockUtility is IUtilityContract, ERC165 {
         return true;
     }
 
-    function supportsInterface(
-        bytes4 interfaceId
-    ) public view virtual override(ERC165, IERC165) returns (bool) {
-        return
-            interfaceId == type(IUtilityContract).interfaceId ||
-            super.supportsInterface(interfaceId);
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165, IERC165) returns (bool) {
+        return interfaceId == type(IUtilityContract).interfaceId || super.supportsInterface(interfaceId);
     }
 
     function getDeployManager() external pure override returns (address) {
@@ -36,12 +32,8 @@ contract MockUtilityFailInit is IUtilityContract, ERC165 {
         return false;
     }
 
-    function supportsInterface(
-        bytes4 interfaceId
-    ) public view virtual override(ERC165, IERC165) returns (bool) {
-        return
-            interfaceId == type(IUtilityContract).interfaceId ||
-            super.supportsInterface(interfaceId);
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165, IERC165) returns (bool) {
+        return interfaceId == type(IUtilityContract).interfaceId || super.supportsInterface(interfaceId);
     }
 
     function getDeployManager() external pure override returns (address) {
@@ -68,8 +60,7 @@ contract DeployManagerTest is Test {
 
     function testAddNewContract() public {
         manager.addNewContract(address(mockUtility), 1 ether, true);
-        (uint256 fee, bool isActive, uint256 registeredAt) = manager
-            .contractsData(address(mockUtility));
+        (uint256 fee, bool isActive, uint256 registeredAt) = manager.contractsData(address(mockUtility));
         assertEq(fee, 1 ether);
         assertTrue(isActive);
         assertGt(registeredAt, 0);
@@ -85,10 +76,7 @@ contract DeployManagerTest is Test {
         bytes memory initData = encodeInitData(user, 42);
         vm.deal(user, 1 ether);
         vm.prank(user);
-        address deployed = manager.deploy{value: 0.1 ether}(
-            address(mockUtility),
-            initData
-        );
+        address deployed = manager.deploy{value: 0.1 ether}(address(mockUtility), initData);
         assertTrue(deployed != address(0));
         assertEq(MockUtility(deployed).initialized(), true);
         assertEq(MockUtility(deployed).lastInitData(), initData);
@@ -124,17 +112,17 @@ contract DeployManagerTest is Test {
     function testUpdateFee() public {
         manager.addNewContract(address(mockUtility), 1 ether, true);
         manager.updateFee(address(mockUtility), 2 ether);
-        (uint256 fee, , ) = manager.contractsData(address(mockUtility));
+        (uint256 fee,,) = manager.contractsData(address(mockUtility));
         assertEq(fee, 2 ether);
     }
 
     function testDeactivateAndActivateContract() public {
         manager.addNewContract(address(mockUtility), 1 ether, true);
         manager.deactivateContract(address(mockUtility));
-        (, bool isActive, ) = manager.contractsData(address(mockUtility));
+        (, bool isActive,) = manager.contractsData(address(mockUtility));
         assertFalse(isActive);
         manager.activateContract(address(mockUtility));
-        (, isActive, ) = manager.contractsData(address(mockUtility));
+        (, isActive,) = manager.contractsData(address(mockUtility));
         assertTrue(isActive);
     }
 
@@ -167,10 +155,7 @@ contract DeployManagerTest is Test {
         manager.activateContract(address(0x1234));
     }
 
-    function encodeInitData(
-        address user_,
-        uint256 value_
-    ) public pure returns (bytes memory) {
+    function encodeInitData(address user_, uint256 value_) public pure returns (bytes memory) {
         return abi.encode(user_, value_);
     }
 }

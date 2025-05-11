@@ -17,6 +17,7 @@ contract MockDeployManager is IDeployManager {
     function deploy(address, bytes calldata) external payable override returns (address) {
         return address(0);
     }
+
     function addNewContract(address, uint256, bool) external override {}
     function updateFee(address, uint256) external override {}
     function deactivateContract(address) external override {}
