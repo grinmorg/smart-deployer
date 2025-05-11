@@ -8,3 +8,4 @@ cache/
 out/
 docs/
 node_modules/
+.mypy_cache/
