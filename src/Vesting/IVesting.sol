@@ -131,6 +131,11 @@ interface IVesting {
     /// @param _to Address to receive the withdrawn tokens
     function withdrawUnallocated(address _to) external;
 
+    /// @notice Returns the information about a vesting schedule for a beneficiary
+    /// @param _claimer Address of the beneficiary
+    /// @return VestingInfo struct containing the vesting information
+    function getVestingInfo(address _claimer) external view returns (VestingInfo memory);
+
     /// @notice Returns the ABI-encoded initialization data for the contract
     /// @param _deployManager Address of the deploy manager
     /// @param _token Address of the ERC20 token
