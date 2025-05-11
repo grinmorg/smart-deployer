@@ -3,3 +3,9 @@
 .cache
 artifacts
 contracts/artifacts
+lib/
+cache/
+out/
+docs/
+node_modules/
+.mypy_cache/

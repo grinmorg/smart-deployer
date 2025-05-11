@@ -8,7 +8,7 @@ This solution allows developers to:
 - Create & connect utility contracts using template
 - Monetize the deployment of utility contracts
 
-> The repository is currently under development.  
-We are building it as part of the Solidity University Bootcamp program.  
+> The repository is currently under development.
+We are building it as part of the Solidity University Bootcamp program.
 
 👉 More details: [bootcamp.solidity.university](https://bootcamp.solidity.university)
