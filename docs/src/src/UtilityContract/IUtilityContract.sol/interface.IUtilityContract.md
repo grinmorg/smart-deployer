@@ -1,5 +1,5 @@
 # IUtilityContract
-[Git Source](https://github.com/SolidityUniversity/smart-deployer/blob/c9dd3d1ffa736a4cdb7d35a22dc0947979fde8ba/src/UtilityContract/IUtilityContract.sol)
+[Git Source](https://github.com/SolidityUniversity/smart-deployer/blob/85c11aeeaafc38269bb5a66ecafac729e84c7b17/src/UtilityContract/IUtilityContract.sol)
 
 **Inherits:**
 IERC165
