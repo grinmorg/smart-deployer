@@ -1,5 +1,5 @@
 # Vesting
-[Git Source](https://github.com/SolidityUniversity/smart-deployer/blob/c317992a2ee80ce05c7c36182238c87b8702d943/src/Vesting/Vesting.sol)
+[Git Source](https://github.com/SolidityUniversity/smart-deployer/blob/c9dd3d1ffa736a4cdb7d35a22dc0947979fde8ba/src/Vesting/Vesting.sol)
 
 **Inherits:**
 [IVesting](/src/Vesting/IVesting.sol/interface.IVesting.md), [AbstractUtilityContract](/src/UtilityContract/AbstractUtilityContract.sol/abstract.AbstractUtilityContract.md), Ownable
